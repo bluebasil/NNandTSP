@@ -22,8 +22,6 @@ parser.add_argument('-n','--nodes', action="store_true",
 
 args = parser.parse_args()
 
-F = open(args.inputFile)
-
 #keeps track of the number of states
 numNodes = 0
 
