@@ -3,13 +3,9 @@ from copy import deepcopy
 import math
 import sys
 
-def distance(city1, city2):
-    return math.sqrt((city1.x - city2.x)**2 + (city1.y - city2.y)**2)
-
 def printPath(path):
     for city in path:
         print(city.name)
-
 
 def newCopyOfState(state):
     newState = stateClass
@@ -86,16 +82,16 @@ def solve(cities):
         for c in range(len(state.cities)):
             #although a state is temporarily created, it is really check feasibility, and may get destroyed later.
             #i wont count this as a new state (yet) because it is really just a temporary variable holder
-            oldDist = distance(state.path[-1],state.path[0])
+            oldDist = structures.distance(state.path[-1],state.path[0])
             newState = structures.stateClass(state.cities[:],state.path[:])
             newState.g = state.g
             newState.h = 0
             newState.path.append(newState.cities[c])
             newState.cities.remove(newState.cities[c])
             #we remove the path from the last city to the first city (which created a cycle)
-            fakeDist =  distance(newState.path[-1], newState.path[0])
+            fakeDist =  structures.distance(newState.path[-1], newState.path[0])
             #recalculate the new cyclic length
-            newDist = distance(newState.path[-2], newState.path[-1]) + fakeDist
+            newDist = structures.distance(newState.path[-2], newState.path[-1]) + fakeDist
             #this represents the cost of this path
             newState.g += newDist - oldDist
 
@@ -106,7 +102,7 @@ def solve(cities):
             maxDist = fakeDist
             to = None
             for r in newState.cities:
-                d = distance(newState.path[-1],r) + distance(r,newState.path[0])
+                d = structures.distance(newState.path[-1],r) + structures.distance(r,newState.path[0])
                 if d > maxDist:
                     maxDist = d
                     to = r
